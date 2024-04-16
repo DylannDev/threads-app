@@ -31,7 +31,9 @@ export default function Pass() {
         Vous pouvez naviguer dans Threads sans profil, mais vous ne pourrez pas
         publier de contenu, ni interagir avec Threads.
       </p>
-      <Button onClick={onContinue}>Continuer</Button>
+      <Button onClick={onContinue} className="w-full">
+        Continuer
+      </Button>
     </div>
   );
 }

@@ -4,13 +4,48 @@ import Button from "@/components/Button/Button";
 import { PiArrowLeft } from "react-icons/pi";
 import Link from "next/link";
 import React from "react";
+import { toast } from "react-toastify";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { checkEmail } from "@/utils/check-email-syntax";
 
 export default function Signin() {
+  const router = useRouter();
+
   const prepareLogin = async (formData) => {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    console.log(email, password);
+    // If a field is empty
+    if (!email || !password) {
+      return toast.error("Veuillez remplir tous les champs");
+    }
+
+    // Check if the email is valid
+    if (!checkEmail(email)) {
+      return toast.error("Veuillez entrer un email valide");
+    }
+
+    // Signin the user
+    try {
+      const response = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (response.error) {
+        return toast.error(response.error);
+      }
+    } catch (error) {
+      return toast.error(error.message);
+    }
+
+    // Success
+    toast.success("Vous êtes connecté ! 🎉");
+
+    // Redirect
+    router.replace("/");
   };
 
   return (
@@ -37,7 +72,9 @@ export default function Signin() {
           className="input outline-transparent"
           required
         />
-        <Button className="w-full">Se connecter</Button>
+        <Button formButton className="w-full">
+          Se connecter
+        </Button>
       </form>
       <div className="flex justify-center items-center mt-4">
         <div className="border-t border-threads-gray-light w-1/4 "></div>

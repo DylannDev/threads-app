@@ -5,17 +5,39 @@ import { PiArrowLeft } from "react-icons/pi";
 import React from "react";
 import Button from "@/components/Button/Button";
 import { createUser } from "@/actions/create-user";
+import { toast } from "react-toastify";
+import { checkEmail } from "@/utils/check-email-syntax";
+import { useRouter } from "next/navigation";
 
 export default function Signup() {
+  const router = useRouter();
   const prepareCreateUser = async (formData) => {
     const username = formData.get("username");
     const pseudo = formData.get("pseudo");
     const email = formData.get("email");
     const password = formData.get("password");
 
-    console.log(username, pseudo, email, password);
+    // Check if a field is empty
+    if (!username || !pseudo || !email || !password) {
+      return toast.error("Veuillez remplir tous les champs");
+    }
 
-    await createUser(username, pseudo, email, password);
+    // Check if the email is valid
+    if (!checkEmail(email)) {
+      return toast.error("Veuillez entrer un email valide");
+    }
+
+    try {
+      await createUser(username, pseudo, email, password);
+    } catch {
+      return toast.error(error.message);
+    }
+
+    // Success
+    toast.success("Votre compte a été créé avec succès ! 🎉");
+
+    // Redirect
+    router.push("/login/signin");
   };
 
   return (
@@ -47,7 +69,6 @@ export default function Signup() {
           name="email"
           placeholder="Email"
           className="input outline-transparent"
-          required
         />
         <input
           type="password"
@@ -56,7 +77,9 @@ export default function Signup() {
           className="input outline-transparent"
           required
         />
-        <Button className="w-full">S'inscrire</Button>
+        <Button formButton className="w-full">
+          S'inscrire
+        </Button>
       </form>
       <div className="flex justify-center items-center mt-4">
         <div className="border-t border-threads-gray-light w-1/4 "></div>

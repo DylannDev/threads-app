@@ -54,27 +54,27 @@ export default function Signup() {
           type="text"
           name="username"
           placeholder="Nom d'utilisateur"
-          className="input outline-transparent"
+          className="input "
           required
         />
         <input
           type="text"
           name="pseudo"
           placeholder="Pseudo"
-          className="input outline-transparent"
+          className="input "
           required
         />
         <input
           type="email"
           name="email"
           placeholder="Email"
-          className="input outline-transparent"
+          className="input "
         />
         <input
           type="password"
           name="password"
           placeholder="Mot de passe"
-          className="input outline-transparent"
+          className="input "
           required
         />
         <Button formButton className="w-full">

@@ -1,7 +1,7 @@
-import { PHASE_DEVELOPMENT_SERVER } from "next/constants.js";
+const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 
-export default function getConfig(env) {
-  if (env === PHASE_DEVELOPMENT_SERVER) {
+module.exports = (env) => {
+  if (env == PHASE_DEVELOPMENT_SERVER) {
     return {
       env: {
         MONGODB_CLIENT:
@@ -22,4 +22,4 @@ export default function getConfig(env) {
       },
     };
   }
-}
+};

@@ -13,7 +13,7 @@ body {
 
 /* Form  */
 .input {
-  @apply bg-threads-gray-dark block w-full mt-3 text-white rounded-xl p-5 placeholder:text-threads-gray-light;
+  @apply bg-threads-gray-dark block w-full mt-3 text-white rounded-xl p-5 placeholder:text-threads-gray-light outline-transparent;
 }
 .label {
   @apply font-bold text-white text-base;
@@ -24,10 +24,10 @@ body {
   @apply border-b border-threads-gray-dark hover:bg-threads-gray-dark hover:bg-opacity-80 duration-150 py-4 flex gap-5;
 }
 .options {
-  @apply absolute top-5 right-0 z-10 bg-threads-modal border border-threads-gray-light overflow-hidden rounded-xl shadow;
+  @apply absolute top-5 right-0 z-10 bg-threads-gray border border-threads-gray-light overflow-hidden rounded-lg shadow;
 }
 .option {
-  @apply bg-threads-modal px-4 py-1 cursor-pointer hover:bg-threads-gray-dark duration-150;
+  @apply text-sm px-4 py-1 cursor-pointer hover:bg-threads-gray-dark  duration-150;
 }
 
 /* Modal */
@@ -35,10 +35,10 @@ body {
   @apply bg-gray-900 bg-opacity-80 fixed top-0 left-0 bottom-0 right-0 flex justify-center items-center z-30;
 }
 .modale-foreground {
-  @apply rounded-xl shadow lg:w-[740px] w-10/12 overflow-y-auto p-5 bg-threads-modal border border-threads-gray-light;
+  @apply rounded-xl shadow lg:w-[740px] w-10/12 overflow-y-auto p-5 bg-threads-gray  border border-threads-gray-light;
 }
 .modale-user-foreground {
-  @apply rounded-xl shadow lg:w-[740px] w-10/12 overflow-y-auto p-5 bg-threads-modal border border-threads-gray-light;
+  @apply rounded-xl shadow lg:w-[740px] w-10/12 overflow-y-auto p-5 bg-threads-gray border border-threads-gray-light;
 }
 
 /* Auth */

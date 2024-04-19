@@ -6,11 +6,7 @@ export default function Search() {
     <ConnectedLayout>
       <div className="mt-10 md:w-[700px] mx-auto w-full">
         <form>
-          <input
-            type="search"
-            placeholder="Rechercher"
-            className="input outline-transparent"
-          />
+          <input type="search" placeholder="Rechercher" className="input " />
         </form>
 
         <div className="mt-32 text-center text-threads-gray-light">

@@ -2,25 +2,39 @@
 
 import ConnectedLayout from "@/components/ConnectedLayout/ConnectedLayout";
 import Posts from "@/components/Posts/Posts";
+import ProfileModal from "@/components/ProfileModal/ProfileModal";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { notFound, useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { createPortal } from "react-dom";
 
 export default function Profile() {
   const params = useParams();
   const pseudo = params.pseudo.slice(3);
+  const router = useRouter();
+  const { data: session } = useSession();
 
+  // States
   const [user, setUser] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     if (!pseudo) {
-      notFound();
+      router.push("/");
     }
 
     fetchUserDataPosts();
   }, []);
+
+  useEffect(() => {
+    if (openModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [openModal]);
 
   const fetchUserDataPosts = async () => {
     const response = await fetch("/api/user", {
@@ -37,8 +51,17 @@ export default function Profile() {
       toast.error("Une erreur est survenue");
     }
 
+    if (!data.user) {
+      router.push("/");
+      return;
+    }
+
     setUser(data.user);
     setPosts(data.posts);
+  };
+
+  const edit = () => {
+    setOpenModal(true);
   };
 
   return (
@@ -55,16 +78,41 @@ export default function Profile() {
               </a>
             </div>
           </div>
-          <div>
+          <div className="w-[100px] h-[100px] rounded-full overflow-hidden">
             <Image
               src={user.picture}
               alt="User"
               width={100}
               height={100}
-              className="rounded-full object-cover "
+              unoptimized
             />
           </div>
         </div>
+        {session?.user?.pseudo === pseudo && (
+          <button className="user-button" onClick={edit}>
+            Modifier le profil
+          </button>
+        )}
+        {openModal &&
+          createPortal(
+            <div
+              className="modale-background"
+              onClick={(e) => {
+                if (e.target === e.currentTarget) {
+                  setOpenModal(false);
+                }
+              }}
+            >
+              <ProfileModal
+                user={user}
+                setUser={setUser}
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+                pseudo={pseudo}
+              />
+            </div>,
+            document.body
+          )}
         <div className="flex mt-10">
           <div className="flex-1 border-b border-white pb-4 px-4 text-center hover:text-white hover:border-white duration-150 cursor-pointer ">
             Threads

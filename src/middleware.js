@@ -12,9 +12,12 @@ export function middleware(request) {
   }
 
   // Check if user is connected
+  if (hasCookie("__Secure-next-auth.session-token", { cookies })) {
+    isAuthenticated = true;
+  }
 
-  // Check if user is not connected
   if (!isAuthenticated) {
+    // Check if user is not connected
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);

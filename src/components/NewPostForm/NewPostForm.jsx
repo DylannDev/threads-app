@@ -7,7 +7,7 @@ import Button from "../Button/Button";
 import { toast } from "react-toastify";
 import { createPost } from "@/actions/create-post";
 
-export default function NewPostForm() {
+export default function NewPostForm({ closeModal = () => {} }) {
   const { data: session } = useSession();
   const [textarea, setTextarea] = useState("");
 
@@ -18,18 +18,20 @@ export default function NewPostForm() {
     } catch (e) {
       return toast.error(e.message);
     }
+
+    closeModal();
   };
 
   return (
     <form action={onPrepare}>
       <div className="flex gap-3 w-full">
-        <div>
+        <div className="w-[80px] h-[80px] rounded-full overflow-hidden mt-5">
           <Image
             src={session?.user.picture}
             alt="User"
-            width={50}
-            height={50}
-            className="rounded-full mt-5"
+            width={80}
+            height={80}
+            unoptimized
           />
         </div>
         <div className="flex-1">

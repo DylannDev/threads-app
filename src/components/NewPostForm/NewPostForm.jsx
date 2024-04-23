@@ -5,25 +5,37 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Button from "../Button/Button";
 import { toast } from "react-toastify";
-import { createPost } from "@/actions/create-post";
+// import { createPost } from "@/actions/create-post";
+// import { addComment } from "@/actions/add-comment";
 
 export default function NewPostForm({ closeModal = () => {} }) {
   const { data: session } = useSession();
   const [textarea, setTextarea] = useState("");
 
-  const onPrepare = async (formData) => {
-    try {
-      await createPost(formData);
-      setTextarea("");
-    } catch (e) {
-      return toast.error(e.message);
-    }
+  // const onCreatePost = async (formData) => {
+  //   try {
+  //     await createPost(formData);
+  //     setTextarea("");
+  //   } catch (e) {
+  //     return toast.error(e.message);
+  //   }
 
-    closeModal();
-  };
+  //   closeModal();
+  // };
+
+  // const onAddComment = async (formData) => {
+  //   try {
+  //     await addComment(formData, postId);
+  //     setTextarea("");
+  //   } catch (e) {
+  //     return toast.error(e.message);
+  //   }
+
+  //   closeModal();
+  // };
 
   return (
-    <form action={onPrepare}>
+    <form action="">
       <div className="flex gap-3 w-full">
         <div className="w-[80px] h-[80px] rounded-full overflow-hidden mt-5">
           <Image

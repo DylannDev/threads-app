@@ -64,6 +64,8 @@ export default function Profile() {
     setOpenModal(true);
   };
 
+  console.log(posts);
+
   return (
     <ConnectedLayout>
       <div className="mt-10 md:w-[700px] mx-auto text-white">
@@ -85,6 +87,7 @@ export default function Profile() {
               width={100}
               height={100}
               unoptimized
+              priority
             />
           </div>
         </div>

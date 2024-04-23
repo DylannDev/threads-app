@@ -21,7 +21,7 @@ body {
 
 /* Post */
 .post {
-  @apply border-b border-threads-gray-dark hover:bg-threads-gray-dark hover:bg-opacity-80 duration-150 py-4 flex gap-5;
+  @apply border-b border-threads-gray-dark duration-150 py-4 flex gap-5;
 }
 .options {
   @apply absolute top-5 right-0 z-10 bg-threads-gray border border-threads-gray-light overflow-hidden rounded-lg shadow;

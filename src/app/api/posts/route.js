@@ -31,11 +31,18 @@ export async function POST(request) {
       _id: post._id.toString(),
     }))[0];
 
+    // 2 - Get the associated comments
+    let comments = await db
+      .collection("comments")
+      .find({ associatedPostId: new ObjectId(postId) })
+      .toArray();
+
     await client.close();
 
     return NextResponse.json(
       {
         post,
+        comments,
       },
       { status: 200 }
     );

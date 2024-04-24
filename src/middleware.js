@@ -1,29 +1,29 @@
-import { hasCookie } from "cookies-next";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import React from "react";
 
 export function middleware(request) {
-  let isAuthenticated = false;
+  const sessionCookie = cookies(request, "__Secure-next-auth.session-token");
+  const guestCookie = cookies(request, "guest");
 
-  // Check if user is guest
-  if (hasCookie("guest", { cookies })) {
-    isAuthenticated = true;
+  // Vérifier si un cookie de session est présent
+  if (sessionCookie) {
+    // L'utilisateur est connecté
+    return NextResponse.next();
   }
 
-  // Check if user is connected
-  if (hasCookie("__Secure-next-auth.session-token", { cookies })) {
-    isAuthenticated = true;
+  // Vérifier si un cookie d'invité est présent
+  if (guestCookie) {
+    // L'utilisateur est en mode invité
+    return NextResponse.next();
   }
 
-  // if (!isAuthenticated) {
-  //   // Check if user is not connected
-  //   const url = request.nextUrl.clone();
-  //   url.pathname = "/login";
-  //   return NextResponse.redirect(url);
-  // }
+  if (!guestCookie) {
+    // L'utilisateur est en mode invité
+    return NextResponse.redirect("/login");
+  }
 
-  return NextResponse.next();
+  // Rediriger vers la page de connexion si aucun cookie n'est présent
+  return NextResponse.redirect("/login");
 }
 
 export const config = {

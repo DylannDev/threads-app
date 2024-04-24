@@ -5,7 +5,7 @@ import { MongoClient } from "mongodb";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 
-export const createPost = async (formData) => {
+export const createPost = async (formContent) => {
   const session = await getServerSession(authOptions);
 
   // If the user is not logged in
@@ -25,8 +25,9 @@ export const createPost = async (formData) => {
     // Add the post to db
     await db.collection("posts").insertOne({
       pseudo: session.user.pseudo,
-      content: formData.get("content"),
+      content: formContent,
       picture: session.user.picture,
+      likes: [],
       creation: new Date(),
     });
   } catch (e) {
@@ -36,5 +37,5 @@ export const createPost = async (formData) => {
 
   await client.close();
 
-  revalidatePath("/");
+  revalidatePath("/", "/[pseudo]");
 };

@@ -1,11 +1,11 @@
 "use server";
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 
-export const addComment = async (formData) => {
+export const addComment = async (formContent, postId) => {
   const session = await getServerSession(authOptions);
 
   // If the user is not logged in
@@ -24,9 +24,9 @@ export const addComment = async (formData) => {
 
     // Add the comment to db
     await db.collection("comments").insertOne({
-      // associatedPostId: postId,
+      associatedPostId: new ObjectId(postId),
       pseudo: session.user.pseudo,
-      content: formData.get("content"),
+      content: formContent,
       picture: session.user.picture,
       creation: new Date(),
     });

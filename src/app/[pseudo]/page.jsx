@@ -64,8 +64,6 @@ export default function Profile() {
     setOpenModal(true);
   };
 
-  console.log(posts);
-
   return (
     <ConnectedLayout>
       <div className="mt-10 md:w-[700px] mx-auto text-white">
@@ -129,7 +127,7 @@ export default function Profile() {
         </div>
         <div className="md:w-[700px] w-full mx-auto mt-10">
           {posts.map((post) => (
-            <Posts key={post.id} post={post} />
+            <Posts key={post._id} post={post} />
           ))}
         </div>
       </div>

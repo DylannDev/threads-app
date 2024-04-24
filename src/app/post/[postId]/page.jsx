@@ -9,7 +9,8 @@ export default function PostId() {
   const params = useParams();
   const postId = params.postId;
 
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState([]);
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -34,6 +35,7 @@ export default function PostId() {
       }
 
       setPost(data.post);
+      setComments(data.comments);
     } catch (error) {
       setError(error.message);
     } finally {
@@ -46,7 +48,15 @@ export default function PostId() {
       <div className="md:w-[700px] w-full mx-auto mt-10">
         {loading && <p className="text-white text-center">Chargement...</p>}
         {error && <div className="text-white text-center">Error: {error}</div>}
-        {post && <Posts post={post} />}
+        {post && (
+          <Posts
+            post={post}
+            commentsCount={comments.length}
+            countLikes={post.likes ? post.likes.length : 0}
+          />
+        )}
+        {comments &&
+          comments.map((comment) => <Posts key={comment._id} post={comment} />)}
       </div>
     </ConnectedLayout>
   );

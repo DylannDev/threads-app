@@ -85,6 +85,7 @@ export default function Profile() {
               width={100}
               height={100}
               unoptimized
+              priority
             />
           </div>
         </div>
@@ -126,7 +127,7 @@ export default function Profile() {
         </div>
         <div className="md:w-[700px] w-full mx-auto mt-10">
           {posts.map((post) => (
-            <Posts key={post.id} post={post} />
+            <Posts key={post._id} post={post} />
           ))}
         </div>
       </div>

@@ -1,10 +1,10 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
   // Get the pseudo from the request body
   const data = await request.json();
-  const { pseudo } = data;
+  const { postId } = data;
   let client;
 
   try {
@@ -14,37 +14,35 @@ export async function POST(request) {
     // Connect to the MongoDB database
     const db = client.db(process.env.MONGODB_DATABASE);
 
-    // 1 - Get user
-    let user = await db.collection("users").find({ pseudo }).limit(1).toArray();
+    // 1 - Get post
+    let post = await db
+      .collection("posts")
+      .find({ _id: new ObjectId(postId) })
+      .limit(1)
+      .toArray();
 
-    if (!user) {
-      throw new Error("Cet utilisateur n'existe pas");
+    if (!post) {
+      throw new Error("Ce thread n'existe pas");
     }
 
     // Formatting
-    user = user.map((user) => ({
-      ...user,
-      _id: user._id.toString(),
-    }))[0];
-
-    // 2 - Get the posts
-    let posts = await db
-      .collection("posts")
-      .find({ pseudo })
-      .sort({ creation: -1 })
-      .toArray();
-
-    posts = posts.map((post) => ({
+    post = post.map((post) => ({
       ...post,
       _id: post._id.toString(),
-    }));
+    }))[0];
+
+    // 2 - Get the associated comments
+    let comments = await db
+      .collection("comments")
+      .find({ associatedPostId: new ObjectId(postId) })
+      .toArray();
 
     await client.close();
 
     return NextResponse.json(
       {
-        user,
-        posts,
+        post,
+        comments,
       },
       { status: 200 }
     );

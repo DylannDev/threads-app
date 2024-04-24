@@ -5,25 +5,34 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Button from "../Button/Button";
 import { toast } from "react-toastify";
+import { addComment } from "@/actions/add-comment";
 import { createPost } from "@/actions/create-post";
 
-export default function NewPostForm({ closeModal = () => {} }) {
+export default function NewPostForm({ closeModal = () => {}, postId = false }) {
   const { data: session } = useSession();
   const [textarea, setTextarea] = useState("");
 
-  const onPrepare = async (formData) => {
-    try {
-      await createPost(formData);
-      setTextarea("");
-    } catch (e) {
-      return toast.error(e.message);
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    closeModal();
+    try {
+      if (postId) {
+        // Ajout de commentaire si postId est fourni
+        await addComment(textarea, postId);
+      } else {
+        // Création de nouveau post si postId n'est pas fourni
+        await createPost(textarea);
+      }
+
+      setTextarea("");
+      closeModal();
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
-    <form action={onPrepare}>
+    <form onSubmit={handleSubmit}>
       <div className="flex gap-3 w-full">
         <div className="w-[80px] h-[80px] rounded-full overflow-hidden mt-5">
           <Image
@@ -37,7 +46,9 @@ export default function NewPostForm({ closeModal = () => {} }) {
         <div className="flex-1">
           <textarea
             name="content"
-            placeholder="Commencer un thread..."
+            placeholder={
+              postId ? "Ajouter un commentaire..." : "Commencer un thread..."
+            }
             className="input"
             value={textarea}
             onChange={(e) => setTextarea(e.target.value)}
@@ -47,7 +58,7 @@ export default function NewPostForm({ closeModal = () => {} }) {
       <div className="flex justify-end">
         <div>
           <Button formButton disabled={textarea.length < 1}>
-            Publier
+            {postId ? "Commenter" : "Publier"}
           </Button>
         </div>
       </div>

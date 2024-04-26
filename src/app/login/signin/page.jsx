@@ -49,7 +49,7 @@ export default function Signin() {
   };
 
   return (
-    <div className="w-[500px] mx-auto">
+    <div className="sm:w-[500px] mx-auto">
       <h1 className="title flex items-center gap-1">
         <Link href="/login">
           <PiArrowLeft className="text-white" />

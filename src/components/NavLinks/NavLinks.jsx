@@ -23,7 +23,7 @@ export default function NavLinks({ session }) {
 
   return (
     <>
-      <nav className="flex justify-center items-center w-full gap-5 absolute py-7">
+      <nav className="hidden sm:flex justify-center items-center w-full gap-5 absolute py-7">
         <Link href="/">
           <PiHouseFill
             className={`${

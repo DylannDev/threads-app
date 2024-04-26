@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 
 export default function Signup() {
   const router = useRouter();
+
   const prepareCreateUser = async (formData) => {
     const username = formData.get("username");
     const pseudo = formData.get("pseudo");
@@ -40,8 +41,30 @@ export default function Signup() {
     router.push("/login/signin");
   };
 
+  const inputsConfig = [
+    {
+      type: "text",
+      name: "username",
+      placeholder: "Nom d'utilisateur",
+    },
+    {
+      type: "text",
+      name: "pseudo",
+      placeholder: "Pseudo",
+    },
+    {
+      type: "email",
+      name: "email",
+      placeholder: "Email",
+    },
+    {
+      type: "password",
+      name: "password",
+      placeholder: "Mot de passe",
+    },
+  ];
   return (
-    <div className="w-[500px] mx-auto">
+    <div className="sm:w-[500px] mx-auto">
       <h1 className="title flex items-center gap-1">
         <Link href="/login">
           <PiArrowLeft className="text-white" />
@@ -50,33 +73,16 @@ export default function Signup() {
       </h1>
 
       <form action={prepareCreateUser}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Nom d'utilisateur"
-          className="input "
-          required
-        />
-        <input
-          type="text"
-          name="pseudo"
-          placeholder="Pseudo"
-          className="input "
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          className="input "
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Mot de passe"
-          className="input "
-          required
-        />
+        {inputsConfig.map((input) => (
+          <input
+            type={input.type}
+            name={input.name}
+            placeholder={input.placeholder}
+            className="input"
+            required
+          />
+        ))}
+
         <Button formButton className="w-full">
           S'inscrire
         </Button>

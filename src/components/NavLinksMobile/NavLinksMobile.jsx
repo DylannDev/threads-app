@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import NewPostForm from "../NewPostForm/NewPostForm";
 
-export default function NavLinks({ session }) {
+export default function NavLinksMobile({ session }) {
   const pathname = usePathname();
 
   const [openModal, setOpenModal] = useState(false);
@@ -22,8 +22,8 @@ export default function NavLinks({ session }) {
   }, [openModal]);
 
   return (
-    <>
-      <nav className="hidden sm:flex justify-center items-center w-full gap-5 absolute py-7">
+    <div className="flex justify-center w-full fixed bottom-0 mb-5 z-50">
+      <nav className="flex sm:hidden justify-center items-center w-fit gap-5 py-4 px-8 border-[1px] border-threads-gray-light bg-threads-gray-dark rounded-full">
         <Link href="/">
           <PiHouseFill
             className={`${
@@ -72,6 +72,6 @@ export default function NavLinks({ session }) {
           </div>,
           document.body
         )}
-    </>
+    </div>
   );
 }

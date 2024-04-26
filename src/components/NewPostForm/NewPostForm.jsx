@@ -34,7 +34,7 @@ export default function NewPostForm({ closeModal = () => {}, postId = false }) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex gap-3 w-full">
-        <div className="w-[80px] h-[80px] rounded-full overflow-hidden mt-5">
+        <div className="w-[50px] h-[50px] sm:w-[80px] sm:h-[80px] rounded-full overflow-hidden mt-5">
           <Image
             src={session?.user.picture}
             alt="User"
